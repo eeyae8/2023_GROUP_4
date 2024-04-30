@@ -31,7 +31,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QVTKOpenGLNativeWidget" name="widget" native="true">
+       <widget class="QVTKOpenGLNativeWidget" name="vtkWidget" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -45,16 +45,22 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pushButton_1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Add File</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>PushButton</string>
+         <string>Options</string>
         </property>
        </widget>
       </item>
@@ -81,9 +87,19 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_File"/>
+    <addaction name="actionItem_Options"/>
+    <addaction name="actionStart_VR"/>
+    <addaction name="actionStop_VR"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -97,8 +113,15 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpen_File"/>
+   <addaction name="actionItem_Options"/>
+   <addaction name="actionStart_VR"/>
+   <addaction name="actionStop_VR"/>
   </widget>
   <action name="actionOpen_File">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/icons/fileopen.png</normaloff>:/Icons/icons/fileopen.png</iconset>
+   </property>
    <property name="text">
     <string>Open File</string>
    </property>
@@ -107,8 +130,39 @@
    </property>
   </action>
   <action name="actionItem_Options">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/icons/options.png</normaloff>:/Icons/icons/options.png</iconset>
+   </property>
    <property name="text">
-    <string>Properties</string>
+    <string>Item Options</string>
+   </property>
+   <property name="toolTip">
+    <string>Item Options</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionStart_VR">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/icons/startVR.png</normaloff>:/Icons/icons/startVR.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start VR</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionStop_VR">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/icons/stopVR.png</normaloff>:/Icons/icons/stopVR.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop VR</string>
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
@@ -123,6 +177,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

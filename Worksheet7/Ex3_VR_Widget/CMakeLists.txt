@@ -24,16 +24,16 @@ set(PROJECT_SOURCES
 	TreeModel/ModelPartList.cpp
 	TreeModel/ModelPart.h
 	TreeModel/ModelPartList.h
-	option_dialog.cpp
-	option_dialog.h
-	option_dialog.ui
+	optiondialog.cpp
+	optiondialog.h
+	optiondialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FirstWidget
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        option_dialog.h option_dialog.cpp option_dialog.ui
+        optiondialog.h optiondialog.cpp optiondialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FirstWidget APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

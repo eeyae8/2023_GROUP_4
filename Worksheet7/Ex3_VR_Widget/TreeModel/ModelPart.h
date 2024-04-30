@@ -101,7 +101,7 @@ public:
     unsigned char getColourG();
     unsigned char getColourB();
 
-    unsigned char m_colourR, m_colourG, m_colourB;
+    
 
     /** Set visible flag
       * @param isVisible sets visible/non-visible
@@ -126,7 +126,7 @@ public:
     /** Return new actor for use in VR
       * @return pointer to new actor
       */
-    //vtkActor* getNewActor();
+    vtkActor* getNewActor();
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
@@ -137,7 +137,8 @@ private:
      * want to add you own.
      */
     bool                                        isVisible;          /**< True/false to indicate if should be visible in model rendering */
-	
+    unsigned char m_colourR, m_colourG, m_colourB;
+
 	/* These are vtk properties that will be used to load/render a model of this part,
 	 * commented out for now but will be used later
 	 */

@@ -2,7 +2,7 @@
 #include "./ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFileDialog>
-#include "option_dialog.h"
+#include "OptionDialog.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->pushButton, &QPushButton::released, this, &MainWindow::handleButton1);
+    connect(ui->pushButton_1, &QPushButton::released, this, &MainWindow::handleButton1);
     connect(ui->pushButton_2, &QPushButton::released, this, &MainWindow::handleButton2);
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->treeView, &QTreeView::clicked, this, &MainWindow::handleTreeClicked);
@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     //Link render window with QT widget
     renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    ui->widget->setRenderWindow(renderWindow);
+    ui->vtkWidget->setRenderWindow(renderWindow);
 
     //added a renderer
     renderer = vtkSmartPointer<vtkRenderer>::New();
@@ -135,80 +135,66 @@ void MainWindow::on_actionOpen_File_triggered() {
     
     emit statusUpdateMessage(fileName, 0);*/
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "C:\\", tr("STL Files(*.stl);;Text Files(*.txt)"));
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Files"), "C:\\", tr("STL Files(*.stl);;Text Files(*.txt)"));
 
-    emit statusUpdateMessage("Opened file: " + fileName, 0);
+    emit statusUpdateMessage(QString("Open File action triggered"), 0);
 
-    if (fileName.isEmpty())
+    if (fileNames.isEmpty())
         return; // User canceled the dialog or no file selected
 
-    // Get the index of the selected item in the tree view
+ // Get the index of the selected item
+    QModelIndex index = ui->treeView->currentIndex();
 
-    QFileInfo fileInfo(fileName);
+    // Get a pointer to the item from the index
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
 
-    QModelIndex selectedIndex = ui->treeView->currentIndex();
+    // To revert back to full filepath, change all filePath to fileName
+    // and remove the 2 lines below
+    for (const QString& filePath : fileNames) {
+        QFileInfo fileInfo(filePath); //delete to revert
+        QString fileName = fileInfo.fileName(); //delete to revert
 
-    //ModelPart* parentPart = selectedIndex.isValid() ? static_cast<ModelPart*>(selectedIndex.internalPointer()) : partList->getRootItem();
+        // Create a new ModelPart item with the filename as its name
+        QModelIndex childPart = partList->appendChild(index, { fileInfo.fileName(), QString("true") });
 
+        // Add the new part as a child of the selected part
+        ModelPart* newPart = static_cast<ModelPart*>(childPart.internalPointer());
 
-    // Create a new item as a child of the currently selected item or the root item if no item is selected
-    //ModelPart* newItem = new ModelPart({ fileName, QVariant(true) }, parentPart);
+        // Call the loadSTL() function of the newly created item
+        newPart->loadSTL(filePath); // change to fileName to revert
 
-    //parentPart->appendChild(newItem);
+        // Update the name property of the selected item
+     //selectedPart->set(0, QVariant(fileName));
 
-    QModelIndex childPart = partList->appendChild(selectedIndex, { fileInfo.fileName(), QString("true") });
-    ModelPart* newItem = static_cast<ModelPart*>(childPart.internalPointer());
-
-    // Load the STL file
-    newItem->loadSTL(fileName);
+        emit statusUpdateMessage(fileName, 0);
+    }
 
     updateRender();
-    // Emit status update message
-  
-
-    
-
-
+    renderer->ResetCamera();
 
 }
 
 void MainWindow::on_actionItem_Options_triggered() {
-   // OptionDialog dialog(this);
+    /* get selected item, update dialog UI based on selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
 
-    QModelIndex index = ui ->treeView->currentIndex();
-   ModelPart* part = static_cast<ModelPart*>(index.internalPointer());
+    /* Get a pointer to the item from the index */
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
 
-    if(part==nullptr)
-    {
-       return;
+    // Pass the selected part to the OptionDialog
+    OptionDialog dialog(selectedPart, this);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        /*update selected item with dialog UI info*/
+       // dialog.updateModelPartFromDialog(selectedPart);
+        emit statusUpdateMessage(QString("Dialog accepted "), 0);
+
+    }
+    else {
+        emit statusUpdateMessage(QString("Dialog rejected "), 0);
     }
 
-    Option_Dialog dialog(this);
-
-    struct ActionMenuData menuData;
-
-    menuData.r= part->getColourR();
-    menuData.g= part->getColourG();
-    menuData.b= part->getColourB();
-
-    menuData.name= part->data(0).toString();
-    menuData.isVisible= part->data(1).toBool();
-
-    dialog.setMenuData(menuData);
-
-    if (dialog.exec() == QDialog::Accepted){
-
-        struct ActionMenuData colour = dialog.getMenuData();
-
-        part->setColour(colour.r,colour.g,colour.b);
-        part->set(0,colour.name);
-        part->set(1, QVariant(colour.isVisible).toString());
-        part->setVisible(colour.isVisible);
-        emit statusUpdateMessage(QString("Dialog accepted"),0);
-        updateRender();
-    } else {
-        emit statusUpdateMessage(QString("Dialog rejected"),0);
-    }
+    updateRender();
 
 }
 
