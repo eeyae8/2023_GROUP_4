@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "OptionDialog.h"
+#include "VRRenderThread.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -174,6 +175,16 @@ void MainWindow::on_actionOpen_File_triggered() {
 
 }
 
+
+void MainWindow::on_actionStart_VR_triggered(){
+    VRrenderer = new VRRenderThread();
+    VRrenderer->start();
+
+
+
+
+}
+
 void MainWindow::on_actionItem_Options_triggered() {
     /* get selected item, update dialog UI based on selected item*/
     QModelIndex index = ui->treeView->currentIndex();
@@ -225,5 +236,30 @@ void MainWindow::updateRenderFromTree(const QModelIndex& index) {
     int rows = partList->rowCount(index);
     for (int i = 0; i < rows; i++) {
         updateRenderFromTree(partList->index(i, 0, index));
+    }
+}
+
+void MainWindow::updateVRRenderFromTree(const QModelIndex& index) {
+    if (index.isValid()) {
+        ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+        vtkSmartPointer<vtkActor> actor = selectedPart->getVRActor();
+        if (actor != nullptr && selectedPart->visible())
+        {
+            if (actor != nullptr)
+            {
+                actor->GetProperty()->SetColor((double)selectedPart->getColourR() / 255., (double)selectedPart->getColourG() / 255., (double)selectedPart->getColourB() / 255.);
+            }
+
+            VRrenderer->addActorOffline(actor);
+
+        }
+
+    }
+    if (!partList->hasChildren(index) || (index.flags() & Qt::ItemNeverHasChildren)) {
+        return;
+    }
+    int rows = partList->rowCount(index);
+    for (int i = 0; i < rows; i++) {
+        updateVRRenderFromTree(partList->index(i, 0, index));
     }
 }

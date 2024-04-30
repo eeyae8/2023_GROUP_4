@@ -217,4 +217,31 @@ vtkActor* ModelPart::getNewActor() {
     return newActor;
     
 }
+vtkActor* ModelPart::getVRActor(){
+
+
+ /* 1. Create new mapper */
+    vtkSmartPointer<vtkPolyDataMapper> mapperVR = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperVR->SetInputConnection(file->GetOutputPort());
+    /* 2. Create new actor and link to mapper */
+    vtkActor *actorVR  = vtkActor::New();
+    
+    actorVR->SetMapper(mapperVR);
+
+    /* 3. Link the vtkProperties of the original actor to the new actor. This means
+*    if you change properties of the original part (colour, position, etc), the
+*    changes will be reflected in the GUI AND VR rendering.
+*
+*    See the vtkActor documentation, particularly the GetProperty() and SetProperty()
+*    functions.
+*
+*
+*/
+    actorVR->SetProperty(actor->GetProperty());
+
+    /* The new vtkActor pointer must be returned here */
+    return nullptr;
+
+}
+
 

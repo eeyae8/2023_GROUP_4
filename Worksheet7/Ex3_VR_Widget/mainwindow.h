@@ -17,6 +17,8 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
+#include <vtkOpenVRRenderWindow.h>
+#include "VRRenderThread.h"
 
 
 
@@ -44,6 +46,7 @@ private:
     ModelPartList* partList;
     vtkSmartPointer<vtkRenderer> renderer;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow;
+    VRRenderThread *VRrenderer;
 
 public slots:
     void handleButton1();
@@ -51,8 +54,10 @@ public slots:
     void handleTreeClicked();
     void on_actionOpen_File_triggered();
     void on_actionItem_Options_triggered();
+    void on_actionStart_VR_triggered();
     void updateRender();
     void updateRenderFromTree(const QModelIndex& index);
+    void updateVRRenderFromTree(const QModelIndex& index);
 
 
 signals:
