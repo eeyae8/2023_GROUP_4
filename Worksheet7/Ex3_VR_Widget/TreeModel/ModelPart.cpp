@@ -8,32 +8,22 @@
   */
 
 #include "ModelPart.h"
-#include "vtkProperty.h"
-#include <vtkSTLReader.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkActor.h>
-#include <vtkMapper.h>
-
 
 
 /* Commented out for now, will be uncommented later when you have
  * installed the VTK library
  */
 #include <vtkSmartPointer.h>
+#include <vtkProperty.h>
 #include <vtkDataSetMapper.h>
 
 
 
 ModelPart::ModelPart(const QList<QVariant>& data, ModelPart* parent )
     : m_itemData(data), m_parentItem(parent) {
-
-    m_colourR = 221;
-
-    m_colourG = 221;
-
-    m_colourB = 221;
-
+    
     /* You probably want to give the item a default colour */
+    m_colourR = 221, m_colourG = 221, m_colourB = 221;
 }
 
 
@@ -109,48 +99,52 @@ int ModelPart::row() const {
 
 void ModelPart::setColour(const unsigned char R, const unsigned char G, const unsigned char B) {
     /* This is a placeholder function that will be used in the next worksheet */
-
     m_colourR = R;
     m_colourG = G;
     m_colourB = B;
 
-    if (actor != nullptr)
-    {
-        actor->GetProperty()->SetColor((double)m_colourR / 255., (double)m_colourG / 255., (double)m_colourB / 255.);
-    }
-    
+    // Normalize the color components to the range [0, 1]
+    double normalizedR = static_cast<double>(m_colourR) / 255.0;
+    double normalizedG = static_cast<double>(m_colourG) / 255.0;
+    double normalizedB = static_cast<double>(m_colourB) / 255.0;
+
+    actor->GetProperty()->SetColor(normalizedR, normalizedG, normalizedB);
     /* As the name suggests ... */
 }
 
 unsigned char ModelPart::getColourR() {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    return m_colourR;
     /* As the name suggests ... */
-
-    return m_colourR;   // needs updating
+    return 0;   // needs updating
 }
 
 unsigned char ModelPart::getColourG() {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    return m_colourG;
     /* As the name suggests ... */
-    return m_colourG;   // needs updating
+    return 0;   // needs updating
 }
 
 
 unsigned char ModelPart::getColourB() {
     /* This is a placeholder function that will be used in the next worksheet */
-    
+    return m_colourB;
     /* As the name suggests ... */
-    return m_colourB;   // needs updating
+    return 0;   // needs updating
 }
 
 
 void ModelPart::setVisible(bool isVisible) {
     /* This is a placeholder function that will be used in the next worksheet */
-
-    this->isVisible = isVisible;
-    
+     m_itemData[1] = isVisible ? "true" : "false";
+     this->isVisible = isVisible;
+     if (isVisible) {
+         actor->VisibilityOn();
+     }
+     else {
+         actor->VisibilityOff();
+     }
     /* As the name suggests ... */
 }
 
@@ -161,46 +155,35 @@ bool ModelPart::visible() {
     return isVisible;
 }
 
+
 void ModelPart::loadSTL( QString fileName ) {
     /* This is a placeholder function that will be used in the next worksheet */
     
     /* 1. Use the vtkSTLReader class to load the STL file 
      *     https://vtk.org/doc/nightly/html/classvtkSTLReader.html
      */
-
+    file = vtkSmartPointer<vtkSTLReader>::New();
+    file->SetFileName(fileName.toStdString().c_str());
+    file->Update();
     /* 2. Initialise the part's vtkMapper */
-    
+    mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInputConnection(file->GetOutputPort());
     /* 3. Initialise the part's vtkActor and link to the mapper */
-
-    vtkSmartPointer<vtkSTLReader> reader = vtkSmartPointer<vtkSTLReader> ::New();
-
-
-    reader->SetFileName(fileName.toStdString().c_str());
-    reader->Update();
-
-    // Create a mapper and link it to the STL reader
-    //vtkNew<vtkPolyDataMapper> mapper;
-
-    mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapper->SetInputConnection(reader->GetOutputPort());
-
-    // Create an actor and link it to the mapper
-    //vtkNew<vtkActor> actor;
     actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
-
-
 }
 
 vtkSmartPointer<vtkActor> ModelPart::getActor() {
-    /* This is a placeholder function that will be used in th                   e next worksheet */
-    return actor;
+    /* This is a placeholder function that will be used in the next worksheet */
+    
     /* Needs to return a smart pointer to the vtkActor to allow
      * part to be rendered.
      */
+
+    return actor;
 }
 
-//vtkActor* ModelPart::getNewActor() {
+vtkActor* ModelPart::getNewActor() {
     /* This is a placeholder function that will be used in the next worksheet.
      * 
      * The default mapper/actor combination can only be used to render the part in 
@@ -210,9 +193,16 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() {
      
      
      /* 1. Create new mapper */
-     
+    vtkSmartPointer<vtkDataSetMapper> newMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    newMapper->SetInputConnection(file->GetOutputPort());
+
+
      /* 2. Create new actor and link to mapper */
-     
+    vtkSmartPointer<vtkActor> newActor = vtkSmartPointer<vtkActor>::New();
+    newActor->SetMapper(newMapper);
+
+    
+
      /* 3. Link the vtkProperties of the original actor to the new actor. This means 
       *    if you change properties of the original part (colour, position, etc), the
       *    changes will be reflected in the GUI AND VR rendering.
@@ -220,10 +210,11 @@ vtkSmartPointer<vtkActor> ModelPart::getActor() {
       *    See the vtkActor documentation, particularly the GetProperty() and SetProperty()
       *    functions.
       */
+    newActor->SetProperty(actor->GetProperty());
     
 
     /* The new vtkActor pointer must be returned here */
-//    return nullptr;
+    return newActor;
     
-//}
+}
 

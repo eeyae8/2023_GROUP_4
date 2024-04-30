@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "option_dialog.h"
+#include "OptionDialog.h"
 #include "TreeModel/ModelPart.h"
 #include "TreeModel/ModelPartList.h"
 #include "vtkGenericOpenGLRenderWindow.h"
