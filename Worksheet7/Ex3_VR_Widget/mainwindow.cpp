@@ -112,7 +112,6 @@ void MainWindow::handleButton1() {
 void MainWindow::handleButton2() {
     emit statusUpdateMessage(QString("Minus button was clicked"), 0);
 
-
 }
 
 void MainWindow::handleTreeClicked() {
@@ -200,7 +199,14 @@ void MainWindow::on_actionItem_Options_triggered() {
 
 void MainWindow::updateRender() {
     renderer->RemoveAllViewProps();
-    updateRenderFromTree(partList->index(0, 0, QModelIndex()));
+    
+    //updateRenderFromTree(partList->index(0, 0, QModelIndex()));
+    
+    int parentCount = partList->rowCount(QModelIndex());
+    for (int i = 0; i < parentCount; i++) {
+        updateRenderFromTree(partList->index(i, 0, QModelIndex()));
+    }
+
     renderer->Render();
 }
 

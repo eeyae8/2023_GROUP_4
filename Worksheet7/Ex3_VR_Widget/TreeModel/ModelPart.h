@@ -26,6 +26,8 @@
 #include <vtkActor.h>
 #include <vtkSTLReader.h>
 #include <vtkColor.h>
+#include <vtkClipDataSet.h>
+#include <vtkShrinkFilter.h>
 
 class ModelPart {
 public:
