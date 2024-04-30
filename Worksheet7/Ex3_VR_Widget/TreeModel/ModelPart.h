@@ -26,6 +26,7 @@
 #include <vtkActor.h>
 #include <vtkSTLReader.h>
 #include <vtkColor.h>
+#include <vtkPolyDataMapper.h>
 
 class ModelPart {
 public:
@@ -127,6 +128,7 @@ public:
       * @return pointer to new actor
       */
     vtkActor* getNewActor();
+    vtkActor* getVRActor();
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
