@@ -55,6 +55,7 @@ public slots:
     void on_actionOpen_File_triggered();
     void on_actionItem_Options_triggered();
     void on_actionStart_VR_triggered();
+    void on_actionStop_VR_triggered();
     void updateRender();
     void updateRenderFromTree(const QModelIndex& index);
     void updateVRRenderFromTree(const QModelIndex& index);

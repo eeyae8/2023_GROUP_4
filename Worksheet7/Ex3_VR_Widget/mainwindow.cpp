@@ -180,10 +180,11 @@ void MainWindow::on_actionStart_VR_triggered(){
     VRrenderer = new VRRenderThread();
     updateVRRenderFromTree(partList->index(0, 0, QModelIndex()));
     VRrenderer->start();
+}
 
-
-
-
+void MainWindow::on_actionStop_VR_triggered() {
+    emit statusUpdateMessage(QString("Stopping VR"), 0);
+    VRrenderer->issueCommand(VRRenderThread::END_RENDER,0.);
 }
 
 void MainWindow::on_actionItem_Options_triggered() {
