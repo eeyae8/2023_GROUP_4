@@ -24,6 +24,7 @@ ModelPart::ModelPart(const QList<QVariant>& data, ModelPart* parent )
     
     /* You probably want to give the item a default colour */
     m_colourR = 221, m_colourG = 221, m_colourB = 221;
+    file = nullptr;
 }
 
 
@@ -221,6 +222,8 @@ vtkActor* ModelPart::getVRActor(){
 
 
  /* 1. Create new mapper */
+    if (file == nullptr)
+        return nullptr;
     vtkSmartPointer<vtkPolyDataMapper> mapperVR = vtkSmartPointer<vtkPolyDataMapper>::New();
     mapperVR->SetInputConnection(file->GetOutputPort());
     /* 2. Create new actor and link to mapper */
@@ -240,7 +243,7 @@ vtkActor* ModelPart::getVRActor(){
     actorVR->SetProperty(actor->GetProperty());
 
     /* The new vtkActor pointer must be returned here */
-    return nullptr;
+    return actorVR;
 
 }
 

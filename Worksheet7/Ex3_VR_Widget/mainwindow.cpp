@@ -178,6 +178,7 @@ void MainWindow::on_actionOpen_File_triggered() {
 
 void MainWindow::on_actionStart_VR_triggered(){
     VRrenderer = new VRRenderThread();
+    updateVRRenderFromTree(partList->index(0, 0, QModelIndex()));
     VRrenderer->start();
 
 
