@@ -19,6 +19,7 @@
 #include <vtkSmartPointer.h>
 #include <vtkOpenVRRenderWindow.h>
 #include "VRRenderThread.h"
+#include <qmutex.h>
 
 
 
@@ -47,6 +48,8 @@ private:
     vtkSmartPointer<vtkRenderer> renderer;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow;
     VRRenderThread *VRrenderer;
+    QMutex mutex;
+
 
 public slots:
     void handleButton1();
