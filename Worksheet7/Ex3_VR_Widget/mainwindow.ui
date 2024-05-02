@@ -99,7 +99,25 @@
     <addaction name="actionStart_VR"/>
     <addaction name="actionStop_VR"/>
    </widget>
+   <widget class="QMenu" name="menuFilters">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <addaction name="actionClearFilters"/>
+    <addaction name="actionClipFilter"/>
+    <addaction name="actionShrinkFilter"/>
+   </widget>
+   <widget class="QMenu" name="menuFilter_All">
+    <property name="title">
+     <string>Filter All</string>
+    </property>
+    <addaction name="actionClearALL"/>
+    <addaction name="actionClipALL"/>
+    <addaction name="actionShrinkALL"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuFilters"/>
+   <addaction name="menuFilter_All"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -114,6 +132,8 @@
    </attribute>
    <addaction name="actionOpen_File"/>
    <addaction name="actionItem_Options"/>
+   <addaction name="actionClearALL"/>
+   <addaction name="separator"/>
    <addaction name="actionStart_VR"/>
    <addaction name="actionStop_VR"/>
   </widget>
@@ -166,6 +186,56 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShrinkFilter">
+   <property name="text">
+    <string>Shrink Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Shrink Filter</string>
+   </property>
+  </action>
+  <action name="actionClearFilters">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/icons/removeFilter.png</normaloff>:/Icons/icons/removeFilter.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Filters</string>
+   </property>
+   <property name="toolTip">
+    <string>Clear Filters</string>
+   </property>
+  </action>
+  <action name="actionClipFilter">
+   <property name="text">
+    <string>Clip Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Clip Filter</string>
+   </property>
+  </action>
+  <action name="actionShrinkALL">
+   <property name="text">
+    <string>ShrinkALL</string>
+   </property>
+   <property name="toolTip">
+    <string>ShrinkALL</string>
+   </property>
+  </action>
+  <action name="actionClipALL">
+   <property name="text">
+    <string>ClipALL</string>
+   </property>
+  </action>
+  <action name="actionClearALL">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/icons/removeFilter.png</normaloff>:/Icons/icons/removeFilter.png</iconset>
+   </property>
+   <property name="text">
+    <string>ClearALL</string>
    </property>
   </action>
  </widget>

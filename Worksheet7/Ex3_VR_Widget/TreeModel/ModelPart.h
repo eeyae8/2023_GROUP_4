@@ -26,6 +26,9 @@
 #include <vtkActor.h>
 #include <vtkSTLReader.h>
 #include <vtkColor.h>
+#include <vtkClipDataSet.h>
+#include <vtkShrinkFilter.h>
+#include <vtkPlane.h>
 #include <vtkPolyDataMapper.h>
 
 class ModelPart {
@@ -129,6 +132,11 @@ public:
       */
     vtkActor* getNewActor();
     vtkActor* getVRActor();
+
+    
+    void ClearFilters();
+    void applyShrinkFilter();
+    void applyClipFilter();
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */

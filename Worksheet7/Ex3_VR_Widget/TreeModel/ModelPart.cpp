@@ -248,3 +248,58 @@ vtkActor* ModelPart::getVRActor(){
 }
 
 
+void ModelPart::ClearFilters() {
+
+    if (file == nullptr)
+    {
+        return;
+    }
+
+
+    mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInputConnection(file->GetOutputPort());
+
+    actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+}
+
+void ModelPart::applyShrinkFilter() {
+
+    if (file == nullptr)
+    {
+        return;
+    }
+
+    // Apply the shrink filter
+    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    shrinkFilter->SetInputConnection(file->GetOutputPort());
+    shrinkFilter->SetShrinkFactor(.8);
+    shrinkFilter->Update();
+
+    mapper->SetInputConnection(shrinkFilter->GetOutputPort());
+
+    actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+}
+
+void ModelPart::applyClipFilter() {
+   
+    if (file == nullptr)
+    {
+        return;
+    }
+
+    // this will apply a clipping plane whose normal is the x-axis that crosses the x-axis at x=0
+    vtkSmartPointer<vtkPlane>   planeLeft = vtkSmartPointer<vtkPlane>::New();
+    planeLeft->SetOrigin(0.0, 0.0, 0.0);
+    planeLeft->SetNormal(-1.0, 0.0, 0.0);
+    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+    
+    clipFilter->SetInputConnection(file->GetOutputPort());
+    clipFilter->SetClipFunction(planeLeft.Get());
+
+    mapper->SetInputConnection(clipFilter->GetOutputPort());
+
+    actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+}

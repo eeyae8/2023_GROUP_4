@@ -94,6 +94,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     renderer->AddActor(cylinderActor);
 
+    // Apply Lighting code here? (SW new 5)
+
     renderer->ResetCamera();
     renderer->GetActiveCamera()->Azimuth(30);
     renderer->GetActiveCamera()->Elevation(30);
@@ -114,7 +116,6 @@ void MainWindow::handleButton1() {
 
 void MainWindow::handleButton2() {
     emit statusUpdateMessage(QString("Minus button was clicked"), 0);
-
 
 }
 
@@ -215,9 +216,138 @@ void MainWindow::on_actionItem_Options_triggered() {
 
 }
 
+/* Filters Start Here */
+
+void MainWindow::on_actionClearFilters_triggered() {
+  
+    /* get selected item, update dialog UI based on selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
+
+    /* Get a pointer to the item from the index */
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    selectedPart->ClearFilters();
+
+    // Update the render
+    updateRender();
+}
+
+void MainWindow::on_actionClearALL_triggered()
+{
+    /* get the model from the tree view */
+    QAbstractItemModel* model = ui->treeView->model();
+
+    /* get the root item */
+    QModelIndex rootIndex = model->index(0, 0);
+
+    /* loop through all child items */
+    for (int i = 0; i < model->rowCount(rootIndex); i++) {
+        QModelIndex childIndex = model->index(i, 0, rootIndex);
+
+        /* Get a pointer to the item from the index */
+        ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+
+        selectedPart->ClearFilters();
+    }
+
+    // Update the render
+    updateRender();
+}
+
+void MainWindow::on_actionShrinkFilter_triggered() {
+
+/* get selected item, update dialog UI based on selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
+
+    /* Get a pointer to the item from the index */
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    selectedPart->applyShrinkFilter();
+
+    // Update the render
+    updateRender();
+}
+
+void MainWindow::on_actionShrinkALL_triggered()
+{
+    /* get the model from the tree view */
+    QAbstractItemModel* model = ui->treeView->model();
+
+    /* get the root item */
+    QModelIndex rootIndex = model->index(0, 0);
+
+    /* loop through all child items */
+    for (int i = 0; i < model->rowCount(rootIndex); i++) {
+        QModelIndex childIndex = model->index(i, 0, rootIndex);
+
+        /* Get a pointer to the item from the index */
+        ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+
+        selectedPart->applyShrinkFilter();
+    }
+
+    // Update the render
+    updateRender();
+}
+
+
+void MainWindow::on_actionClipFilter_triggered() {
+    // Iterate over all items
+/*    for (int i = 0; i < partList->rowCount(QModelIndex()); ++i) {
+        QModelIndex index = partList->index(i, 0, QModelIndex());
+        ModelPart* part = static_cast<ModelPart*>(index.internalPointer());
+
+        // Apply the shrink filter to the part
+        part->applyShrinkFilter();
+    }
+*/
+/* get selected item, update dialog UI based on selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
+
+    /* Get a pointer to the item from the index */
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    selectedPart->applyClipFilter();
+
+
+    // Update the render
+    updateRender();
+}
+
+void MainWindow::on_actionClipALL_triggered()
+{
+    /* get the model from the tree view */
+    QAbstractItemModel* model = ui->treeView->model();
+
+    /* get the root item */
+    QModelIndex rootIndex = model->index(0, 0);
+
+    /* loop through all child items */
+    for (int i = 0; i < model->rowCount(rootIndex); i++) {
+        QModelIndex childIndex = model->index(i, 0, rootIndex);
+
+        /* Get a pointer to the item from the index */
+        ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+
+        selectedPart->applyClipFilter();
+    }
+
+    // Update the render
+    updateRender();
+}
+
+/* Filters End Here*/
+
 void MainWindow::updateRender() {
     renderer->RemoveAllViewProps();
-    updateRenderFromTree(partList->index(0, 0, QModelIndex()));
+    
+    //updateRenderFromTree(partList->index(0, 0, QModelIndex()));
+    
+    int parentCount = partList->rowCount(QModelIndex());
+    for (int i = 0; i < parentCount; i++) {
+        updateRenderFromTree(partList->index(i, 0, QModelIndex()));
+    }
+
     renderer->Render();
 }
 
