@@ -24,6 +24,7 @@ ModelPart::ModelPart(const QList<QVariant>& data, ModelPart* parent )
     
     /* You probably want to give the item a default colour */
     m_colourR = 221, m_colourG = 221, m_colourB = 221;
+    file = nullptr;
 }
 
 
@@ -217,6 +218,35 @@ vtkActor* ModelPart::getNewActor() {
     return newActor;
     
 }
+vtkActor* ModelPart::getVRActor(){
+
+
+ /* 1. Create new mapper */
+    if (file == nullptr)
+        return nullptr;
+    vtkSmartPointer<vtkPolyDataMapper> mapperVR = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperVR->SetInputConnection(file->GetOutputPort());
+    /* 2. Create new actor and link to mapper */
+    vtkActor *actorVR  = vtkActor::New();
+    
+    actorVR->SetMapper(mapperVR);
+
+    /* 3. Link the vtkProperties of the original actor to the new actor. This means
+*    if you change properties of the original part (colour, position, etc), the
+*    changes will be reflected in the GUI AND VR rendering.
+*
+*    See the vtkActor documentation, particularly the GetProperty() and SetProperty()
+*    functions.
+*
+*
+*/
+    actorVR->SetProperty(actor->GetProperty());
+
+    /* The new vtkActor pointer must be returned here */
+    return actorVR;
+
+}
+
 
 void ModelPart::ClearFilters() {
 

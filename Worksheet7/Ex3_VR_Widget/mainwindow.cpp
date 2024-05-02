@@ -3,9 +3,10 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "OptionDialog.h"
+#include "VRRenderThread.h"
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -29,9 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
         QString name = QString("TopLevel %1").arg(i);
         QString visible("true");
 
-            /* Create child item */
+        /* Create child item */
 
-            ModelPart* childItem = new ModelPart({ name, visible });
+        ModelPart* childItem = new ModelPart({ name, visible });
 
 
 
@@ -87,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Here we set its color and rotate it around the X and Y axes.
     vtkNew<vtkActor> cylinderActor;
     cylinderActor->SetMapper(cylinderMapper);
-    cylinderActor->GetProperty()->SetColor( 1., 0., 0. );
+    cylinderActor->GetProperty()->SetColor(1., 0., 0.);
     cylinderActor->RotateX(30.0);
     cylinderActor->RotateY(-45.0);
 
@@ -99,6 +100,8 @@ MainWindow::MainWindow(QWidget *parent)
     renderer->GetActiveCamera()->Azimuth(30);
     renderer->GetActiveCamera()->Elevation(30);
     renderer->ResetCameraClippingRange();
+
+    VRrenderer = new VRRenderThread();
 }
 
 MainWindow::~MainWindow()
@@ -126,14 +129,14 @@ void MainWindow::handleTreeClicked() {
     /* In this case, we will retrieve the name string from the internal QVariant data array*/
     QString text = selectedPart->data(0).toString();
 
-    emit statusUpdateMessage(QString("The selected item is: ")+text, 0);
+    emit statusUpdateMessage(QString("The selected item is: ") + text, 0);
 
 }
 
 void MainWindow::on_actionOpen_File_triggered() {
-    
+
     /*QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "C:\\", tr("STL Files(*.stl);;Text Files(*.txt)"));
-    
+
     emit statusUpdateMessage(fileName, 0);*/
 
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Files"), "C:\\", tr("STL Files(*.stl);;Text Files(*.txt)"));
@@ -143,7 +146,7 @@ void MainWindow::on_actionOpen_File_triggered() {
     if (fileNames.isEmpty())
         return; // User canceled the dialog or no file selected
 
- // Get the index of the selected item
+    // Get the index of the selected item
     QModelIndex index = ui->treeView->currentIndex();
 
     // Get a pointer to the item from the index
@@ -164,6 +167,8 @@ void MainWindow::on_actionOpen_File_triggered() {
         // Call the loadSTL() function of the newly created item
         newPart->loadSTL(filePath); // change to fileName to revert
 
+
+        VRrenderer->addActorToVR(newPart->getVRActor());
         // Update the name property of the selected item
      //selectedPart->set(0, QVariant(fileName));
 
@@ -173,6 +178,18 @@ void MainWindow::on_actionOpen_File_triggered() {
     updateRender();
     renderer->ResetCamera();
 
+
+}
+
+
+void MainWindow::on_actionStart_VR_triggered() {
+    updateVRRenderFromTree(partList->index(0, 0, QModelIndex()));
+    VRrenderer->start();
+}
+
+void MainWindow::on_actionStop_VR_triggered() {
+    emit statusUpdateMessage(QString("Stopping VR"), 0);
+    VRrenderer->issueCommand(VRRenderThread::END_RENDER, 0.);
 }
 
 void MainWindow::on_actionItem_Options_triggered() {
@@ -338,7 +355,7 @@ void MainWindow::updateRenderFromTree(const QModelIndex& index) {
     if (index.isValid()) {
         ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
         vtkSmartPointer<vtkActor> actor = selectedPart->getActor();
-        if (actor != nullptr && selectedPart -> visible())
+        if (actor != nullptr && selectedPart->visible())
         {
             if (actor != nullptr)
             {
@@ -355,5 +372,30 @@ void MainWindow::updateRenderFromTree(const QModelIndex& index) {
     int rows = partList->rowCount(index);
     for (int i = 0; i < rows; i++) {
         updateRenderFromTree(partList->index(i, 0, index));
+    }
+}
+
+void MainWindow::updateVRRenderFromTree(const QModelIndex& index) {
+    if (index.isValid()) {
+        ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+        vtkSmartPointer<vtkActor> actor = selectedPart->getVRActor();
+        if (actor != nullptr && selectedPart->visible())
+        {
+            if (actor != nullptr)
+            {
+                actor->GetProperty()->SetColor((double)selectedPart->getColourR() / 255., (double)selectedPart->getColourG() / 255., (double)selectedPart->getColourB() / 255.);
+            }
+
+            VRrenderer->addActorOffline(actor);
+
+        }
+
+    }
+    if (!partList->hasChildren(index) || (index.flags() & Qt::ItemNeverHasChildren)) {
+        return;
+    }
+    int rows = partList->rowCount(index);
+    for (int i = 0; i < rows; i++) {
+        updateVRRenderFromTree(partList->index(i, 0, index));
     }
 }

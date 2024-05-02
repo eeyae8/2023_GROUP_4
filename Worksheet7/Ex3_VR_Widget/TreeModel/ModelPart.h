@@ -29,6 +29,7 @@
 #include <vtkClipDataSet.h>
 #include <vtkShrinkFilter.h>
 #include <vtkPlane.h>
+#include <vtkPolyDataMapper.h>
 
 class ModelPart {
 public:
@@ -130,6 +131,7 @@ public:
       * @return pointer to new actor
       */
     vtkActor* getNewActor();
+    vtkActor* getVRActor();
 
     
     void ClearFilters();
