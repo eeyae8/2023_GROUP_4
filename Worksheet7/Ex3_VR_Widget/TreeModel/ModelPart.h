@@ -28,6 +28,7 @@
 #include <vtkColor.h>
 #include <vtkClipDataSet.h>
 #include <vtkShrinkFilter.h>
+#include <vtkPlane.h>
 
 class ModelPart {
 public:
@@ -129,6 +130,11 @@ public:
       * @return pointer to new actor
       */
     vtkActor* getNewActor();
+
+    
+    void ClearFilters();
+    void applyShrinkFilter();
+    void applyClipFilter();
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
