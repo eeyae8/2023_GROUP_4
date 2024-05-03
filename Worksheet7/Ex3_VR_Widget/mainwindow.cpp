@@ -24,23 +24,20 @@ MainWindow::MainWindow(QWidget* parent)
 
     /*Manually create a model tree*/
     ModelPart* rootItem = this->partList->getRootItem();
+
+
     /*Add 3 top level items*/
-    for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 3; i++) {
+
         /*Create strings fro both data columns*/
         QString name = QString("TopLevel %1").arg(i);
         QString visible("true");
 
         /* Create child item */
-
-        ModelPart* childItem = new ModelPart({ name, visible });
-
-
+            ModelPart* childItem = new ModelPart({ name, visible });
 
         /* Append to tree top-level */
-
-        rootItem->appendChild(childItem);
-
-
+            rootItem->appendChild(childItem);
 
         /* Add 5 sub-items */
 
@@ -50,18 +47,12 @@ MainWindow::MainWindow(QWidget* parent)
 
             QString visible("true");
 
-
-
             ModelPart* childChildItem = new ModelPart({ name, visible });
-
-
 
             /* Append to parent */
 
             //childItem->appendChild(childChildItem);
-
         //}
-
     }
     //Link render window with QT widget
     renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
