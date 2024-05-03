@@ -65,6 +65,8 @@ public slots:
     void on_actionShrinkALL_triggered();
     void on_actionClipFilter_triggered();
     void on_actionClipALL_triggered();
+    void on_actionWireframeFilter_triggered();
+    void on_actionWireframeALL_triggered();
 
     void on_actionStart_VR_triggered();
     void on_actionStop_VR_triggered();

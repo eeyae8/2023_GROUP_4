@@ -137,6 +137,7 @@ public:
     void ClearFilters();
     void applyShrinkFilter();
     void applyClipFilter();
+    void applyWireframeFilter();
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
