@@ -41,6 +41,8 @@ VRRenderThread::VRRenderThread( QObject* parent ) {
 	rotateX = 0.;
 	rotateY = 0.;
 	rotateZ = 0.;
+
+	actorToAdd = nullptr;
 }
 
 
@@ -51,6 +53,13 @@ VRRenderThread::VRRenderThread( QObject* parent ) {
  */
 VRRenderThread::~VRRenderThread() {
 
+}
+
+
+void VRRenderThread::addActorToVR(vtkActor* actor) {
+	QMutexLocker locker(&mutex); // Acquire the mutex lock
+	actorToAdd = actor; // Store the actor pointer
+	condition.wakeOne(); // Wake up the rendering thread
 }
 
 
@@ -193,6 +202,18 @@ void VRRenderThread::run() {
 			while ((a = (vtkActor*)actorList->GetNextActor())) {
 				a->RotateZ(rotateZ);
 			}
+
+			//renderer->AddActor(actorToAdd);
+
+			// Check if there's a new actor to add
+			mutex.lock(); // Acquire the mutex lock
+			if (actorToAdd) {
+				renderer->AddActor(actorToAdd);
+				actorToAdd = nullptr; // Reset the pointer
+			}
+			mutex.unlock();
+
+	
 			
 			/* Remember time now */
 			t_last = std::chrono::steady_clock::now();

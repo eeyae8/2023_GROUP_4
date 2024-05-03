@@ -164,6 +164,8 @@ void MainWindow::on_actionOpen_File_triggered() {
         // Call the loadSTL() function of the newly created item
         newPart->loadSTL(filePath); // change to fileName to revert
 
+
+        VRrenderer->addActorToVR(newPart->getVRActor());
         // Update the name property of the selected item
      //selectedPart->set(0, QVariant(fileName));
 
@@ -172,6 +174,7 @@ void MainWindow::on_actionOpen_File_triggered() {
 
     updateRender();
     renderer->ResetCamera();
+
 
 }
 

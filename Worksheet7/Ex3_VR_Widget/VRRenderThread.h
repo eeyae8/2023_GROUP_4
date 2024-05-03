@@ -67,6 +67,9 @@ public:
     void issueCommand( int cmd, double value );
 
 
+    void addActorToVR(vtkActor* actor);
+
+
 protected:
     /** This is a re-implementation of a QThread function 
       */
@@ -93,6 +96,8 @@ private:
       * by the GUI then the rendering will end 
       */
     bool                                                endRender;
+
+    vtkSmartPointer<vtkActor>                           actorToAdd;
 
     /* Some variables to indicate animation actions to apply.
      *

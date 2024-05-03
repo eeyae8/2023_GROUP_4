@@ -224,7 +224,7 @@ vtkActor* ModelPart::getVRActor(){
  /* 1. Create new mapper */
     if (file == nullptr)
         return nullptr;
-    vtkSmartPointer<vtkPolyDataMapper> mapperVR = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkSmartPointer<vtkMapper> mapperVR = vtkSmartPointer<vtkDataSetMapper>::New();
     mapperVR->SetInputConnection(file->GetOutputPort());
     /* 2. Create new actor and link to mapper */
     vtkActor *actorVR  = vtkActor::New();
