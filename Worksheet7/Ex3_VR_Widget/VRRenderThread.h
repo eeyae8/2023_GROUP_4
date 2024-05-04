@@ -1,10 +1,10 @@
-/**		@file VRRenderThread.h
+/**          @file VRRenderThread.h
   *
-  *		EEEE2046 - Software Engineering & VR Project
+  *          EEEE2046 - Software Engineering & VR Project
   *
-  *		Template to add VR rendering to your application.
+  *          Template to add VR rendering to your application.
   *
-  *		P Evans 2022
+  *          P Evans 2022
   */
 #ifndef VR_RENDER_THREAD_H
 #define VR_RENDER_THREAD_H
@@ -18,21 +18,21 @@
 
 /* Vtk headers */
 #include <vtkActor.h>
-#include <vtkOpenVRRenderWindow.h>				
-#include <vtkOpenVRRenderWindowInteractor.h>	
-#include <vtkOpenVRRenderer.h>					
-#include <vtkOpenVRCamera.h>	
+#include <vtkOpenVRRenderWindow.h>                         
+#include <vtkOpenVRRenderWindowInteractor.h> 
+#include <vtkOpenVRRenderer.h>                             
+#include <vtkOpenVRCamera.h>    
 #include <vtkActorCollection.h>
 #include <vtkCommand.h>
 
 
 
 /* Note that this class inherits from the Qt class QThread which allows it to be a parallel thread
- * to the main() thread, and also from vtkCommand which allows it to act as a "callback" for the 
+* to the main() thread, and also from vtkCommand which allows it to act as a "callback" for the 
  * vtkRenderWindowInteractor. This callback functionallity means that once the renderWindowInteractor
- * takes control of this thread to enable VR, it can callback to a function in the class to check to see
- * if the user has requested any changes
- */
+* takes control of this thread to enable VR, it can callback to a function in the class to check to see
+* if the user has requested any changes
+*/
 class VRRenderThread : public QThread {
     Q_OBJECT
 
@@ -110,3 +110,4 @@ private:
 
 
 #endif
+
