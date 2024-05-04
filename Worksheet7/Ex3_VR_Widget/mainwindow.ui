@@ -106,6 +106,7 @@
     <addaction name="actionClearFilters"/>
     <addaction name="actionClipFilter"/>
     <addaction name="actionShrinkFilter"/>
+    <addaction name="actionWireframeFilter"/>
    </widget>
    <widget class="QMenu" name="menuFilter_All">
     <property name="title">
@@ -114,6 +115,7 @@
     <addaction name="actionClearALL"/>
     <addaction name="actionClipALL"/>
     <addaction name="actionShrinkALL"/>
+    <addaction name="actionWireframeALL"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuFilters"/>
@@ -236,6 +238,22 @@
    </property>
    <property name="text">
     <string>ClearALL</string>
+   </property>
+  </action>
+  <action name="actionWireframeFilter">
+   <property name="text">
+    <string>Wireframe Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Wireframe Filter</string>
+   </property>
+  </action>
+  <action name="actionWireframeALL">
+   <property name="text">
+    <string>Wireframe ALL</string>
+   </property>
+   <property name="toolTip">
+    <string>Wireframe ALL</string>
    </property>
   </action>
  </widget>

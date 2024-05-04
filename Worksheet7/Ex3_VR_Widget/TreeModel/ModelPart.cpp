@@ -292,7 +292,7 @@ void ModelPart::applyClipFilter() {
     // this will apply a clipping plane whose normal is the x-axis that crosses the x-axis at x=0
     vtkSmartPointer<vtkPlane>   planeLeft = vtkSmartPointer<vtkPlane>::New();
     planeLeft->SetOrigin(0.0, 0.0, 0.0);
-    planeLeft->SetNormal(-1.0, 0.0, 0.0);
+    planeLeft->SetNormal(0.0, -1.0, 0.0);
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
     
     clipFilter->SetInputConnection(file->GetOutputPort());
@@ -302,4 +302,20 @@ void ModelPart::applyClipFilter() {
 
     actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
+}
+
+void ModelPart::applyWireframeFilter() {
+
+    if (file == nullptr)
+    {
+        return;
+    }
+
+    // Apply the pseudofilter
+
+    mapper->SetInputConnection(file->GetOutputPort());
+
+    actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetRepresentationToWireframe();
 }
