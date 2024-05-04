@@ -24,23 +24,20 @@ MainWindow::MainWindow(QWidget* parent)
 
     /*Manually create a model tree*/
     ModelPart* rootItem = this->partList->getRootItem();
+
+
     /*Add 3 top level items*/
-    for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 3; i++) {
+
         /*Create strings fro both data columns*/
         QString name = QString("TopLevel %1").arg(i);
         QString visible("true");
 
         /* Create child item */
-
-        ModelPart* childItem = new ModelPart({ name, visible });
-
-
+            ModelPart* childItem = new ModelPart({ name, visible });
 
         /* Append to tree top-level */
-
-        rootItem->appendChild(childItem);
-
-
+            rootItem->appendChild(childItem);
 
         /* Add 5 sub-items */
 
@@ -50,18 +47,12 @@ MainWindow::MainWindow(QWidget* parent)
 
             QString visible("true");
 
-
-
             ModelPart* childChildItem = new ModelPart({ name, visible });
-
-
 
             /* Append to parent */
 
             //childItem->appendChild(childChildItem);
-
         //}
-
     }
     //Link render window with QT widget
     renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
@@ -237,17 +228,19 @@ void MainWindow::on_actionClearALL_triggered()
     /* get the model from the tree view */
     QAbstractItemModel* model = ui->treeView->model();
 
-    /* get the root item */
-    QModelIndex rootIndex = model->index(0, 0);
+    /* loop through all root items */
+    for (int j = 0; j < model->rowCount(); j++) {
+        QModelIndex rootIndex = model->index(j, 0);
 
-    /* loop through all child items */
-    for (int i = 0; i < model->rowCount(rootIndex); i++) {
-        QModelIndex childIndex = model->index(i, 0, rootIndex);
+        /* loop through all child items */
+        for (int i = 0; i < model->rowCount(rootIndex); i++) {
+            QModelIndex childIndex = model->index(i, 0, rootIndex);
 
-        /* Get a pointer to the item from the index */
-        ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+            /* Get a pointer to the item from the index */
+            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
 
-        selectedPart->ClearFilters();
+            selectedPart->ClearFilters();
+        }
     }
 
     // Update the render
@@ -273,17 +266,19 @@ void MainWindow::on_actionShrinkALL_triggered()
     /* get the model from the tree view */
     QAbstractItemModel* model = ui->treeView->model();
 
-    /* get the root item */
-    QModelIndex rootIndex = model->index(0, 0);
+    /* loop through all root items */
+    for (int j = 0; j < model->rowCount(); j++) {
+        QModelIndex rootIndex = model->index(j, 0);
 
-    /* loop through all child items */
-    for (int i = 0; i < model->rowCount(rootIndex); i++) {
-        QModelIndex childIndex = model->index(i, 0, rootIndex);
+        /* loop through all child items */
+        for (int i = 0; i < model->rowCount(rootIndex); i++) {
+            QModelIndex childIndex = model->index(i, 0, rootIndex);
 
-        /* Get a pointer to the item from the index */
-        ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+            /* Get a pointer to the item from the index */
+            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
 
-        selectedPart->applyShrinkFilter();
+            selectedPart->applyShrinkFilter();
+        }
     }
 
     // Update the render
@@ -292,15 +287,7 @@ void MainWindow::on_actionShrinkALL_triggered()
 
 
 void MainWindow::on_actionClipFilter_triggered() {
-    // Iterate over all items
-/*    for (int i = 0; i < partList->rowCount(QModelIndex()); ++i) {
-        QModelIndex index = partList->index(i, 0, QModelIndex());
-        ModelPart* part = static_cast<ModelPart*>(index.internalPointer());
 
-        // Apply the shrink filter to the part
-        part->applyShrinkFilter();
-    }
-*/
 /* get selected item, update dialog UI based on selected item*/
     QModelIndex index = ui->treeView->currentIndex();
 
@@ -319,17 +306,58 @@ void MainWindow::on_actionClipALL_triggered()
     /* get the model from the tree view */
     QAbstractItemModel* model = ui->treeView->model();
 
-    /* get the root item */
-    QModelIndex rootIndex = model->index(0, 0);
+    /* loop through all root items */
+    for (int j = 0; j < model->rowCount(); j++) {
+        QModelIndex rootIndex = model->index(j, 0);
 
-    /* loop through all child items */
-    for (int i = 0; i < model->rowCount(rootIndex); i++) {
-        QModelIndex childIndex = model->index(i, 0, rootIndex);
+        /* loop through all child items */
+        for (int i = 0; i < model->rowCount(rootIndex); i++) {
+            QModelIndex childIndex = model->index(i, 0, rootIndex);
 
-        /* Get a pointer to the item from the index */
-        ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+            /* Get a pointer to the item from the index */
+            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
 
-        selectedPart->applyClipFilter();
+            selectedPart->applyClipFilter();
+        }
+    }
+
+    // Update the render
+    updateRender();
+}
+
+void MainWindow::on_actionWireframeFilter_triggered() {
+
+/* get selected item, update dialog UI based on selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
+
+    /* Get a pointer to the item from the index */
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    selectedPart->applyWireframeFilter();
+
+
+    // Update the render
+    updateRender();
+}
+
+void MainWindow::on_actionWireframeALL_triggered()
+{
+    /* get the model from the tree view */
+    QAbstractItemModel* model = ui->treeView->model();
+
+    /* loop through all root items */
+    for (int j = 0; j < model->rowCount(); j++) {
+        QModelIndex rootIndex = model->index(j, 0);
+
+        /* loop through all child items */
+        for (int i = 0; i < model->rowCount(rootIndex); i++) {
+            QModelIndex childIndex = model->index(i, 0, rootIndex);
+
+            /* Get a pointer to the item from the index */
+            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+
+            selectedPart->applyWireframeFilter();
+        }
     }
 
     // Update the render

@@ -71,7 +71,14 @@ set_target_properties(FirstWidget PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+if(WIN32)
+	set(CPACK_GENERATOR "NSIS")
+else()
+	set(CPACK_GENERATOR "ZIP")
+endif()
+
 include(GNUInstallDirs)
+include(CPack)
 install(TARGETS FirstWidget
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
