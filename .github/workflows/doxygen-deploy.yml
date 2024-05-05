@@ -8,7 +8,7 @@ on:
 
 jobs:
   #will build Ex3_VR_Widget
-  deploy-worksheet5:
+  deploy-Ex3_VR_Widget:
     #defines os for virtual computer
     runs-on: ubuntu-latest
         
