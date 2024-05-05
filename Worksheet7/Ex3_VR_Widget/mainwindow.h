@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+/** @file
+*This file contains the main window class for the application.
 
+*/
 #include <QMainWindow>
 #include "OptionDialog.h"
 #include "TreeModel/ModelPart.h"
@@ -67,6 +70,13 @@ public slots:
     void on_actionClipALL_triggered();
     void on_actionWireframeFilter_triggered();
     void on_actionWireframeALL_triggered();
+
+    /** Start VR function
+* This function is called when the user clicks the "Start VR" button in the menu bar. It creates a new VRRenderThread object and starts it.
+* It calls the VRRenderThread constructor, which initialises the actor list and rotation variables.
+
+
+*/
 
     void on_actionStart_VR_triggered();
     void on_actionStop_VR_triggered();
