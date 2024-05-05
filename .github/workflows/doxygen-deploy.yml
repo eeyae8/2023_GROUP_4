@@ -1,0 +1,35 @@
+#doxygen-deploy.yml
+name: doxygen-deploy
+
+on:
+  push:
+    branches: [main] #Note: this needs to be set to default branch name
+        
+
+jobs:
+  #will build Ex3_VR_Widget
+  deploy-worksheet5:
+    #defines os for virtual computer
+    runs-on: ubuntu-latest
+        
+    steps:
+        
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Install doxygen 
+      run: sudo apt-get install -y doxygen
+          
+        #Run Doxygen on Ex3_VR_Widget folder
+    - name: Run Doxygen
+      working-directory: ${{github.workspace}}/Ex3_VR_Widget
+      run: doxygen
+          
+        #Deploy html output from Doxygen to ghpages branches- name: Deploy
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      with:
+           #the branch the ation should deploy to.
+        branch: gh-pages
+           #The folder the action should deply.
+        folder: ${{github.workspace}}/Ex3_VR_Widget/html
