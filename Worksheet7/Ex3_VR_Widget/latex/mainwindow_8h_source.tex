@@ -1,0 +1,89 @@
+\doxysection{mainwindow.\+h}
+\hypertarget{mainwindow_8h_source}{}\label{mainwindow_8h_source}\mbox{\hyperlink{mainwindow_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MAINWINDOW\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MAINWINDOW\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QMainWindow>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}OptionDialog.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}TreeModel/ModelPart.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}TreeModel/ModelPartList.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}vtkGenericOpenGLRenderWindow.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vtkActor.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <vtkCamera.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <vtkCylinderSource.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <vtkNamedColors.h>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <vtkNew.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <vtkPolyDataMapper.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <vtkProperty.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <vtkRenderWindow.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <vtkRenderWindowInteractor.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <vtkRenderer.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <vtkSmartPointer.h>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <vtkOpenVRRenderWindow.h>}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_v_r_render_thread_8h}{VRRenderThread.h}}"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <qmutex.h>}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <vtkLight.h>}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ QT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }Ui\ \{}
+\DoxyCodeLine{00032\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_main_window}{MainWindow}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ QT\_END\_NAMESPACE}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_main_window}{MainWindow}}\ :\ \textcolor{keyword}{public}\ QMainWindow}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{class_main_window}{MainWindow}}(QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{class_main_window}{\string~MainWindow}}();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00050\ \ \ \ \ Ui::MainWindow\ *ui;}
+\DoxyCodeLine{00051\ \ \ \ \ ModelPartList*\ partList;}
+\DoxyCodeLine{00052\ \ \ \ \ vtkSmartPointer<vtkRenderer>\ renderer;}
+\DoxyCodeLine{00053\ \ \ \ \ vtkSmartPointer<vtkGenericOpenGLRenderWindow>\ renderWindow;}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{class_v_r_render_thread}{VRRenderThread}}\ *VRrenderer;}
+\DoxyCodeLine{00055\ \ \ \ \ QMutex\ mutex;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{public}\ slots:}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ handleButton1();}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ handleButton2();}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ handleTreeClicked();}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionOpen\_File\_triggered();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionItem\_Options\_triggered();}
+\DoxyCodeLine{00064\ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionClearFilters\_triggered();}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionClearALL\_triggered();}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionShrinkFilter\_triggered();}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionShrinkALL\_triggered();}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionClipFilter\_triggered();}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionClipALL\_triggered();}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionWireframeFilter\_triggered();}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionWireframeALL\_triggered();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_main_window_a8ded108feb37f7794e2251f99c2136c1}{on\_actionStart\_VR\_triggered}}();}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ on\_actionStop\_VR\_triggered();}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ updateRender();}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ updateRenderFromTree(\textcolor{keyword}{const}\ QModelIndex\&\ index);}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ updateVRRenderFromTree(\textcolor{keyword}{const}\ QModelIndex\&\ index);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ signals:}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ statusUpdateMessage(\textcolor{keyword}{const}\ QString\&\ message,\ \textcolor{keywordtype}{int}\ timeout);}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MAINWINDOW\_H}}
+\DoxyCodeLine{00095\ }
+
+\end{DoxyCode}
