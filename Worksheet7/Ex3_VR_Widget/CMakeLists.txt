@@ -85,13 +85,13 @@ install(TARGETS FirstWidget
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-install(DIRECTORY "C:\Program Files (x86)\VTK\bin" DESTINATION bin COMPONENT VTK FILES_MATCHING PATTERN "*dll")
+install(DIRECTORY "C:/Program Files (x86)/VTK/bin" DESTINATION bin COMPONENT VTK FILES_MATCHING PATTERN "*dll")
 
-install(DIRECTORY "C:\Qt\6.6.2\msvc2019_64\bin" DESTINATION bin COMPONENT Qt FILES_MATCHING PATTERN "*dll")
+install(DIRECTORY "C:/Qt/6.6.2/msvc2019_64/bin" DESTINATION bin COMPONENT Qt FILES_MATCHING PATTERN "*dll")
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FirstWidget)
 endif()
 
-add_custom_target(VRBindings)
-add_custom_command(TARGET VRBindings PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/vrbindings ${CMAKE_BINARY_DIR}/)
+add_custom_target(vrbindings)
+add_custom_command(TARGET vrbindings PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/vrbindings ${CMAKE_BINARY_DIR}/)
