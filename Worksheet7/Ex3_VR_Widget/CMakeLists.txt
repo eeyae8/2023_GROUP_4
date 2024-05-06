@@ -29,13 +29,16 @@ set(PROJECT_SOURCES
 	optiondialog.ui
 	VRRenderThread.cpp
 	VRRenderThread.h
+	filterdialog.cpp
+	filterdialog.h
+	filterdialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FirstWidget
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        optiondialog.h optiondialog.cpp optiondialog.ui
+        optiondialog.h optiondialog.cpp optiondialog.ui optiondialog.h optiondialog.cpp optiondialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FirstWidget APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

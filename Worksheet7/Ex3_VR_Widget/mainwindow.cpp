@@ -5,6 +5,7 @@
 #include "OptionDialog.h"
 #include "VRRenderThread.h"
 
+#include "FilterDialog.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -13,9 +14,11 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     connect(ui->pushButton_1, &QPushButton::released, this, &MainWindow::handleButton1);
     connect(ui->pushButton_2, &QPushButton::released, this, &MainWindow::handleButton2);
+    connect(ui->pushButton_Filter, &QPushButton::released, this, &MainWindow::on_applyFiltersButton_clicked);
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->treeView, &QTreeView::clicked, this, &MainWindow::handleTreeClicked);
     ui->treeView->addAction(ui->actionItem_Options);
+    
     /* Create /allocate the ModelList*/
     this->partList = new ModelPartList("PartsList");
 
@@ -363,6 +366,30 @@ void MainWindow::on_actionWireframeALL_triggered()
     // Update the render
     updateRender();
 }
+
+void MainWindow::on_applyFiltersButton_clicked()
+{
+    /* get selected item, update dialog UI based on selected item*/
+    QModelIndex index = ui->treeView->currentIndex();
+
+    /* Get a pointer to the item from the index */
+    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+
+    FilterDialog dialog(selectedPart, this);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        /*update selected item with dialog UI info*/
+       // dialog.updateModelPartFromFilterDialog(selectedPart);
+        emit statusUpdateMessage(QString("Dialog accepted "), 0);
+        
+        selectedPart->setupFilters();
+        updateRender();
+    }
+    else {
+        emit statusUpdateMessage(QString("Dialog rejected "), 0);
+    }
+}
+
 
 /* Filters End Here*/
 

@@ -14,6 +14,9 @@
 #include <QList>
 #include <QVariant>
 
+#include <QFileDialog>
+#include <vector>
+
 /* VTK headers - will be needed when VTK used in next worksheet,
  * commented out for now
  *
@@ -30,6 +33,9 @@
 #include <vtkShrinkFilter.h>
 #include <vtkPlane.h>
 #include <vtkPolyDataMapper.h>
+
+#include <vtkAlgorithm.h>
+#include <vtkExtractEdges.h>
 
 class ModelPart {
 public:
@@ -134,10 +140,27 @@ public:
     vtkActor* getVRActor();
 
     
+    void setFilterShrink(bool hasFilterShrink);
+    void setFilterClip(bool hasFilterClip);
+    void setFilterWireframe(bool hasFilterWireframe);
+
+    bool filterShrink();
+    bool filterClip();
+    bool filterWireframe();
+
     void ClearFilters();
     void applyShrinkFilter();
     void applyClipFilter();
     void applyWireframeFilter();
+
+
+    struct Filter {
+    bool shouldApply;
+    vtkSmartPointer<vtkAlgorithm> filter;
+    };
+
+    void applyFilters(std::vector<Filter> filters);
+    void setupFilters();
 
 private:
     QList<ModelPart*>                           m_childItems;       /**< List (array) of child items */
@@ -149,6 +172,10 @@ private:
      */
     bool                                        isVisible;          /**< True/false to indicate if should be visible in model rendering */
     unsigned char m_colourR, m_colourG, m_colourB;
+    
+    bool hasFilterShrink;
+    bool hasFilterClip;
+    bool hasFilterWireframe;
 
 	/* These are vtk properties that will be used to load/render a model of this part,
 	 * commented out for now but will be used later

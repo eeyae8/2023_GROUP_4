@@ -68,6 +68,8 @@ public slots:
     void on_actionWireframeFilter_triggered();
     void on_actionWireframeALL_triggered();
 
+    void on_applyFiltersButton_clicked();
+
     void on_actionStart_VR_triggered();
     void on_actionStop_VR_triggered();
 

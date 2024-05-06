@@ -24,6 +24,9 @@ ModelPart::ModelPart(const QList<QVariant>& data, ModelPart* parent )
     
     /* You probably want to give the item a default colour */
     m_colourR = 221, m_colourG = 221, m_colourB = 221;
+    hasFilterShrink = false;
+    hasFilterClip = false;
+    hasFilterWireframe = false;
     file = nullptr;
 }
 
@@ -154,6 +157,53 @@ bool ModelPart::visible() {
     
     /* As the name suggests ... */
     return isVisible;
+}
+
+void ModelPart::setFilterShrink(bool hasFShrink) {
+    hasFilterShrink = hasFShrink;
+    //if (hasFilterShrink) {
+    //    actor->VisibilityOn();
+    //}
+    //else {
+    //    actor->VisibilityOff();
+    //}
+}
+
+void ModelPart::setFilterClip(bool hasFClip) {
+    hasFilterClip = hasFClip;
+    //if (hasFilterClip) {
+    //    actor->VisibilityOn();
+    //}
+    //else {
+    //    actor->VisibilityOff();
+    //}
+}
+
+void ModelPart::setFilterWireframe(bool hasFWireframe) {
+    hasFilterWireframe = hasFWireframe;
+    //if (hasFilterWireframe) {
+    //    actor->VisibilityOn();
+    //}
+    //else {
+    //    actor->VisibilityOff();
+    //}
+}
+
+
+
+bool ModelPart::filterShrink() {
+
+    return hasFilterShrink;
+}
+
+bool ModelPart::filterClip() {
+
+    return hasFilterClip;
+}
+
+bool ModelPart::filterWireframe() {
+
+    return hasFilterWireframe;
 }
 
 
@@ -318,4 +368,53 @@ void ModelPart::applyWireframeFilter() {
     actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
     actor->GetProperty()->SetRepresentationToWireframe();
+}
+
+void ModelPart::applyFilters(std::vector<Filter> filters) {
+    if (file == nullptr) {
+        return;
+    }
+
+    vtkSmartPointer<vtkAlgorithm> lastFilter=file;
+
+    for (auto& filter : filters) {
+        if (filter.shouldApply) {
+            filter.filter->SetInputConnection(lastFilter->GetOutputPort());
+            filter.filter->Update();
+            lastFilter = filter.filter;
+        }
+    }
+
+    if (lastFilter != nullptr) {
+        mapper->SetInputConnection(lastFilter->GetOutputPort());
+
+        actor = vtkSmartPointer<vtkActor>::New();
+        actor->SetMapper(mapper);
+    }
+}
+
+void ModelPart::setupFilters() {
+    // Create the shrink filter
+    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    shrinkFilter->SetShrinkFactor(.8);
+
+    // Create the clip filter
+    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+    vtkSmartPointer<vtkPlane> planeLeft = vtkSmartPointer<vtkPlane>::New();
+    planeLeft->SetOrigin(0.0, 0.0, 0.0);
+    planeLeft->SetNormal(0.0, -1.0, 0.0);
+    clipFilter->SetClipFunction(planeLeft.Get());
+
+    // Create the wireframe filter
+    vtkSmartPointer<vtkExtractEdges> wireframeFilter = vtkSmartPointer<vtkExtractEdges>::New();
+
+    // Create a vector of filters
+    std::vector<Filter> filters = {
+        {hasFilterShrink, shrinkFilter},
+        {hasFilterClip, clipFilter},
+        {hasFilterWireframe, wireframeFilter}
+    };
+
+    // Apply the filters
+    applyFilters(filters);
 }
