@@ -54,9 +54,15 @@ private:
 
 
 public slots:
+    
     void handleButton1();
     void handleButton2();
+	/** Handle tree clicked function.
+	* This function is called when the user clicks on an item in the tree. It calls the updateRenderFromTree function.
+ 
+    */
     void handleTreeClicked();
+
     void on_actionOpen_File_triggered();
     void on_actionItem_Options_triggered();
     
