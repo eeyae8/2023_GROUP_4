@@ -71,7 +71,7 @@ public slots:
     void on_actionWireframeFilter_triggered();
     void on_actionWireframeALL_triggered();
 
-    /** Start VR function
+    /** Start VR function.
 * This function is called when the user clicks the "Start VR" button in the menu bar. It creates a new VRRenderThread object and starts it.
 * It calls the VRRenderThread constructor, which initialises the actor list and rotation variables.
 
@@ -79,14 +79,35 @@ public slots:
 */
 
     void on_actionStart_VR_triggered();
+	/** Stop VR function.
+	* This function is called when the user clicks the "Stop VR" button in the menu bar. It stops the VRRenderThread object.
+	* It calls the VRRenderThread destructor, which stops the thread and deletes the object.
+    */
     void on_actionStop_VR_triggered();
 
+	/** Update VR function.
+	*This function updates the VR render window. It calls the updateRender function of the VRRenderThread object.
+    
+    */
     void updateRender();
+	/** Update VR render from tree function.
+	*This function updates the VR render window from the tree. It calls the updateRenderFromTree function of the VRRenderThread object.
+	* @param index QModelIndex object.
+	* Cycles through actors in the tree and updates the VR render window.
+    */
     void updateRenderFromTree(const QModelIndex& index);
+	/** Update VR render from tree function.
+	*This function updates the VR render window from the tree. It calls the updateRenderFromTree function of the VRRenderThread object.
+	* @param index QModelIndex object.
+	* Cycles through actors in the tree and updates the VR render window.
+    */
     void updateVRRenderFromTree(const QModelIndex& index);
 
 
 signals:
+	/** Status update message signal.
+	*This signal is emitted when a status update message is required.
+    */
     void statusUpdateMessage(const QString& message, int timeout);
 };
 

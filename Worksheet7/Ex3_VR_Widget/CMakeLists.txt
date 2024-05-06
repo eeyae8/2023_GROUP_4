@@ -73,6 +73,16 @@ set_target_properties(FirstWidget PROPERTIES
 
 if(WIN32)
 	set(CPACK_GENERATOR "NSIS")
+	    # Define the installation directory for the application
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "FirstWidget")
+
+    # Set the Start Menu folder path
+    set(START_MENU_SHORTCUTS_DIR "$ENV{APPDATA}/Microsoft/Windows/Start Menu/Programs/${CPACK_PACKAGE_INSTALL_DIRECTORY}")
+        # Add commands to create a Start Menu shortcut during installation
+    install(CODE "set(CPACK_NSIS_CREATE_ICONS_EXTRA \"CreateShortCut \\\"$DESKTOP_SHORTCUTS_DIR\\\\FirstWidget.lnk\\\" \\\"$INSTDIR\\\\bin\\\\FirstWidget.exe\\\"\")")
+
+    
+    	
 else()
 	set(CPACK_GENERATOR "ZIP")
 endif()
