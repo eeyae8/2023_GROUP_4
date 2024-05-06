@@ -85,6 +85,10 @@ install(TARGETS FirstWidget
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+install(DIRECTORY "C:\Program Files (x86)\VTK\bin" DESTINATION bin COMPONENT VTK FILES_MATCHING PATTERN "*dll")
+
+install(DIRECTORY "C:\Qt\6.6.2\msvc2019_64\bin" DESTINATION bin COMPONENT Qt FILES_MATCHING PATTERN "*dll")
+
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(FirstWidget)
 endif()
