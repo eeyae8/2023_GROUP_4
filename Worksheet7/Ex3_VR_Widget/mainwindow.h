@@ -62,8 +62,13 @@ public slots:
  
     */
     void handleTreeClicked();
-
+/** Open file function.
+* This function is called when the user clicks the "Open File" button in the menu bar. It opens a file dialog and loads the selected file.
+* It uses ModelPart to add the actor to VR.
+*/
     void on_actionOpen_File_triggered();
+    /** Opens item options and allows user to change the colour of the object in both GUI and VR. 
+    */
     void on_actionItem_Options_triggered();
     
     void on_actionClearALL_triggered();
