@@ -144,15 +144,13 @@ public:
     void setFilterClip(bool hasFilterClip);
     void setFilterWireframe(bool hasFilterWireframe);
 
+    
     bool filterShrink();
     bool filterClip();
     bool filterWireframe();
+    
 
     void ClearFilters();
-    void applyShrinkFilter();
-    void applyClipFilter();
-    void applyWireframeFilter();
-
 
     struct Filter {
     bool shouldApply;

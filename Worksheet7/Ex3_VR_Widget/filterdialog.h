@@ -15,9 +15,7 @@ class FilterDialog : public QDialog
 
 public:
     explicit FilterDialog(ModelPart* modelPart, QWidget* parent = nullptr);
-/*    bool isShrinkFilterChecked() const;
-    bool isClipFilterChecked() const;
-    bool isWireframeFilterChecked() const; */
+
     ~FilterDialog();
 
     void updateFilterDialogFromModelPart(ModelPart* modelPart);

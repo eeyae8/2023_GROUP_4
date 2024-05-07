@@ -161,35 +161,18 @@ bool ModelPart::visible() {
 
 void ModelPart::setFilterShrink(bool hasFShrink) {
     hasFilterShrink = hasFShrink;
-    //if (hasFilterShrink) {
-    //    actor->VisibilityOn();
-    //}
-    //else {
-    //    actor->VisibilityOff();
-    //}
+
 }
 
 void ModelPart::setFilterClip(bool hasFClip) {
     hasFilterClip = hasFClip;
-    //if (hasFilterClip) {
-    //    actor->VisibilityOn();
-    //}
-    //else {
-    //    actor->VisibilityOff();
-    //}
+
 }
 
 void ModelPart::setFilterWireframe(bool hasFWireframe) {
     hasFilterWireframe = hasFWireframe;
-    //if (hasFilterWireframe) {
-    //    actor->VisibilityOn();
-    //}
-    //else {
-    //    actor->VisibilityOff();
-    //}
+
 }
-
-
 
 bool ModelPart::filterShrink() {
 
@@ -311,63 +294,6 @@ void ModelPart::ClearFilters() {
 
     actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
-}
-
-void ModelPart::applyShrinkFilter() {
-
-    if (file == nullptr)
-    {
-        return;
-    }
-
-    // Apply the shrink filter
-    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    shrinkFilter->SetInputConnection(file->GetOutputPort());
-    shrinkFilter->SetShrinkFactor(.8);
-    shrinkFilter->Update();
-
-    mapper->SetInputConnection(shrinkFilter->GetOutputPort());
-
-    actor = vtkSmartPointer<vtkActor>::New();
-    actor->SetMapper(mapper);
-}
-
-void ModelPart::applyClipFilter() {
-   
-    if (file == nullptr)
-    {
-        return;
-    }
-
-    // this will apply a clipping plane whose normal is the x-axis that crosses the x-axis at x=0
-    vtkSmartPointer<vtkPlane>   planeLeft = vtkSmartPointer<vtkPlane>::New();
-    planeLeft->SetOrigin(0.0, 0.0, 0.0);
-    planeLeft->SetNormal(0.0, -1.0, 0.0);
-    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    
-    clipFilter->SetInputConnection(file->GetOutputPort());
-    clipFilter->SetClipFunction(planeLeft.Get());
-
-    mapper->SetInputConnection(clipFilter->GetOutputPort());
-
-    actor = vtkSmartPointer<vtkActor>::New();
-    actor->SetMapper(mapper);
-}
-
-void ModelPart::applyWireframeFilter() {
-
-    if (file == nullptr)
-    {
-        return;
-    }
-
-    // Apply the pseudofilter
-
-    mapper->SetInputConnection(file->GetOutputPort());
-
-    actor = vtkSmartPointer<vtkActor>::New();
-    actor->SetMapper(mapper);
-    actor->GetProperty()->SetRepresentationToWireframe();
 }
 
 void ModelPart::applyFilters(std::vector<Filter> filters) {

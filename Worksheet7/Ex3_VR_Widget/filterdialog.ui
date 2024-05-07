@@ -55,7 +55,7 @@
     <string>Shrink Filter</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="wireframeFilterCheckbox">
+  <widget class="QCheckBox" name="wireframeFilterCheckBox">
    <property name="geometry">
     <rect>
      <x>50</x>
