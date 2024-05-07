@@ -55,10 +55,14 @@ private:
 
 public slots:
     
-    /** handleButton function
+    /** handleButton1 function
     * Extra capability to add files from browser
     */
     void handleButton1();
+
+    /**
+    * Capability to remove a file from the tree
+    */
     void handleButton2();
 	/** Handle tree clicked function.
 	* This function is called when the user clicks on an item in the tree. It calls the updateRenderFromTree function.
