@@ -91,14 +91,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>handleButton2</b> ()<
 <tr class="separator:a3a4866823ec0a9148c03ade962e65cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3d17973d3111f1ba9805217b6ab58cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#ad3d17973d3111f1ba9805217b6ab58cf">on_actionItem_Options_triggered</a> ()</td></tr>
 <tr class="separator:ad3d17973d3111f1ba9805217b6ab58cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e0331b6641de92296abfd44f16f6943"><td class="memItemLeft" align="right" valign="top"><a id="a8e0331b6641de92296abfd44f16f6943"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>on_actionClearALL_triggered</b> ()</td></tr>
+<tr class="memitem:a8e0331b6641de92296abfd44f16f6943"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#a8e0331b6641de92296abfd44f16f6943">on_actionClearALL_triggered</a> ()</td></tr>
 <tr class="separator:a8e0331b6641de92296abfd44f16f6943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af03866696ce2308161cb16c3351a5229"><td class="memItemLeft" align="right" valign="top"><a id="af03866696ce2308161cb16c3351a5229"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>on_applyFiltersButton_clicked</b> ()</td></tr>
+<tr class="memitem:af03866696ce2308161cb16c3351a5229"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#af03866696ce2308161cb16c3351a5229">on_applyFiltersButton_clicked</a> ()</td></tr>
 <tr class="separator:af03866696ce2308161cb16c3351a5229"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae982a19501d480b0a533b34371136f42"><td class="memItemLeft" align="right" valign="top"><a id="ae982a19501d480b0a533b34371136f42"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>on_applyFilterAllButton_clicked</b> ()</td></tr>
+<tr class="memitem:ae982a19501d480b0a533b34371136f42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#ae982a19501d480b0a533b34371136f42">on_applyFilterAllButton_clicked</a> ()</td></tr>
 <tr class="separator:ae982a19501d480b0a533b34371136f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ded108feb37f7794e2251f99c2136c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainWindow.html#a8ded108feb37f7794e2251f99c2136c1">on_actionStart_VR_triggered</a> ()</td></tr>
 <tr class="separator:a8ded108feb37f7794e2251f99c2136c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,6 +143,32 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Handle tree clicked function. This function is called when the user clicks on an item in the tree. It calls the updateRenderFromTree function. </p>
+
+</div>
+</div>
+<a id="a8e0331b6641de92296abfd44f16f6943"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e0331b6641de92296abfd44f16f6943">&#9670;&nbsp;</a></span>on_actionClearALL_triggered</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainWindow::on_actionClearALL_triggered </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Clear all filters function. This function is called when the user clicks the "Clear All Filters" button in the menu bar. It clears all filters in the tree. It uses ModelPart to clear the filters. </p>
 
 </div>
 </div>
@@ -250,6 +273,58 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Stop VR function. This function is called when the user clicks the "Stop VR" button in the menu bar. It stops the <a class="el" href="classVRRenderThread.html">VRRenderThread</a> object. It calls the <a class="el" href="classVRRenderThread.html">VRRenderThread</a> destructor, which stops the thread and deletes the object. </p>
+
+</div>
+</div>
+<a id="ae982a19501d480b0a533b34371136f42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae982a19501d480b0a533b34371136f42">&#9670;&nbsp;</a></span>on_applyFilterAllButton_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainWindow::on_applyFilterAllButton_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Apply all filters function. This function is called when the user clicks the "Apply All Filters" button in the menu bar. It applies all filters in the tree. It uses ModelPart to apply all the filters. </p>
+
+</div>
+</div>
+<a id="af03866696ce2308161cb16c3351a5229"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af03866696ce2308161cb16c3351a5229">&#9670;&nbsp;</a></span>on_applyFiltersButton_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainWindow::on_applyFiltersButton_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Apply filters function. This function is called when the user clicks the "Apply Filters" button in the menu bar. It applies individual filters in the tree. It uses ModelPart to apply the filters. </p>
 
 </div>
 </div>
