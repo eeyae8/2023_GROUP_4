@@ -66,14 +66,9 @@ public slots:
     void on_actionOpen_File_triggered();
     void on_actionItem_Options_triggered();
     
-    void on_actionClearFilters_triggered();
     void on_actionClearALL_triggered();
-    void on_actionShrinkFilter_triggered();
-    void on_actionShrinkALL_triggered();
-    void on_actionClipFilter_triggered();
-    void on_actionClipALL_triggered();
-    void on_actionWireframeFilter_triggered();
-    void on_actionWireframeALL_triggered();
+    void on_applyFiltersButton_clicked();
+    void on_applyFilterAllButton_clicked();
 
     /** Start VR function.
 * This function is called when the user clicks the "Start VR" button in the menu bar. It creates a new VRRenderThread object and starts it.

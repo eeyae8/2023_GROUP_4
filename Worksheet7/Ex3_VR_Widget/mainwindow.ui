@@ -60,7 +60,21 @@
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>Options</string>
+         <string>Remove File</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_Filter">
+        <property name="text">
+         <string>Filters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_FilterAll">
+        <property name="text">
+         <string>Filter All</string>
         </property>
        </widget>
       </item>
@@ -99,15 +113,6 @@
     <addaction name="actionStart_VR"/>
     <addaction name="actionStop_VR"/>
    </widget>
-   <widget class="QMenu" name="menuFilters">
-    <property name="title">
-     <string>Filters</string>
-    </property>
-    <addaction name="actionClearFilters"/>
-    <addaction name="actionClipFilter"/>
-    <addaction name="actionShrinkFilter"/>
-    <addaction name="actionWireframeFilter"/>
-   </widget>
    <widget class="QMenu" name="menuFilter_All">
     <property name="title">
      <string>Filter All</string>
@@ -118,7 +123,6 @@
     <addaction name="actionWireframeALL"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuFilters"/>
    <addaction name="menuFilter_All"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -190,34 +194,6 @@
     <enum>QAction::NoRole</enum>
    </property>
   </action>
-  <action name="actionShrinkFilter">
-   <property name="text">
-    <string>Shrink Filter</string>
-   </property>
-   <property name="toolTip">
-    <string>Shrink Filter</string>
-   </property>
-  </action>
-  <action name="actionClearFilters">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/Icons/icons/removeFilter.png</normaloff>:/Icons/icons/removeFilter.png</iconset>
-   </property>
-   <property name="text">
-    <string>Clear Filters</string>
-   </property>
-   <property name="toolTip">
-    <string>Clear Filters</string>
-   </property>
-  </action>
-  <action name="actionClipFilter">
-   <property name="text">
-    <string>Clip Filter</string>
-   </property>
-   <property name="toolTip">
-    <string>Clip Filter</string>
-   </property>
-  </action>
   <action name="actionShrinkALL">
    <property name="text">
     <string>ShrinkALL</string>
@@ -238,14 +214,6 @@
    </property>
    <property name="text">
     <string>ClearALL</string>
-   </property>
-  </action>
-  <action name="actionWireframeFilter">
-   <property name="text">
-    <string>Wireframe Filter</string>
-   </property>
-   <property name="toolTip">
-    <string>Wireframe Filter</string>
    </property>
   </action>
   <action name="actionWireframeALL">

@@ -5,6 +5,7 @@
 #include "OptionDialog.h"
 #include "VRRenderThread.h"
 
+#include "FilterDialog.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -13,9 +14,12 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     connect(ui->pushButton_1, &QPushButton::released, this, &MainWindow::handleButton1);
     connect(ui->pushButton_2, &QPushButton::released, this, &MainWindow::handleButton2);
+    connect(ui->pushButton_Filter, &QPushButton::released, this, &MainWindow::on_applyFiltersButton_clicked);
+    connect(ui->pushButton_FilterAll, &QPushButton::released, this, &MainWindow::on_applyFilterAllButton_clicked);
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage);
     connect(ui->treeView, &QTreeView::clicked, this, &MainWindow::handleTreeClicked);
     ui->treeView->addAction(ui->actionItem_Options);
+    
     /* Create /allocate the ModelList*/
     this->partList = new ModelPartList("PartsList");
 
@@ -102,7 +106,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleButton1() {
     emit statusUpdateMessage(QString("Add button was clicked"), 0);
-
+    on_actionOpen_File_triggered();
 }
 
 void MainWindow::handleButton2() {
@@ -209,20 +213,6 @@ void MainWindow::on_actionItem_Options_triggered() {
 
 /* Filters Start Here */
 
-void MainWindow::on_actionClearFilters_triggered() {
-  
-    /* get selected item, update dialog UI based on selected item*/
-    QModelIndex index = ui->treeView->currentIndex();
-
-    /* Get a pointer to the item from the index */
-    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
-
-    selectedPart->ClearFilters();
-
-    // Update the render
-    updateRender();
-}
-
 void MainWindow::on_actionClearALL_triggered()
 {
     /* get the model from the tree view */
@@ -247,121 +237,71 @@ void MainWindow::on_actionClearALL_triggered()
     updateRender();
 }
 
-void MainWindow::on_actionShrinkFilter_triggered() {
 
-/* get selected item, update dialog UI based on selected item*/
+void MainWindow::on_applyFiltersButton_clicked()
+{
+    /* get selected item, update dialog UI based on selected item*/
     QModelIndex index = ui->treeView->currentIndex();
 
     /* Get a pointer to the item from the index */
     ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
 
-    selectedPart->applyShrinkFilter();
+    FilterDialog dialog(selectedPart, this);
 
-    // Update the render
-    updateRender();
-}
-
-void MainWindow::on_actionShrinkALL_triggered()
-{
-    /* get the model from the tree view */
-    QAbstractItemModel* model = ui->treeView->model();
-
-    /* loop through all root items */
-    for (int j = 0; j < model->rowCount(); j++) {
-        QModelIndex rootIndex = model->index(j, 0);
-
-        /* loop through all child items */
-        for (int i = 0; i < model->rowCount(rootIndex); i++) {
-            QModelIndex childIndex = model->index(i, 0, rootIndex);
-
-            /* Get a pointer to the item from the index */
-            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
-
-            selectedPart->applyShrinkFilter();
-        }
+    if (dialog.exec() == QDialog::Accepted) {
+        /*update selected item with dialog UI info*/
+        emit statusUpdateMessage(QString("Dialog accepted "), 0);
+        
+        selectedPart->setupFilters();
+        updateRender();
     }
-
-    // Update the render
-    updateRender();
+    else {
+        emit statusUpdateMessage(QString("Dialog rejected "), 0);
+    }
 }
 
-
-void MainWindow::on_actionClipFilter_triggered() {
-
-/* get selected item, update dialog UI based on selected item*/
+void MainWindow::on_applyFilterAllButton_clicked()
+{
     QModelIndex index = ui->treeView->currentIndex();
-
-    /* Get a pointer to the item from the index */
     ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
+    FilterDialog dialog(selectedPart, this);
 
-    selectedPart->applyClipFilter();
+    if (dialog.exec() == QDialog::Accepted) {
+        /*update selected item with dialog UI info*/
+        emit statusUpdateMessage(QString("Dialog accepted "), 0);
 
+        bool clip = selectedPart->filterClip();
+        bool shrink = selectedPart->filterShrink();
+        bool wireframe = selectedPart->filterWireframe();
 
-    // Update the render
-    updateRender();
-}
+        /* get the model from the tree view */
+        QAbstractItemModel* model = ui->treeView->model();
 
-void MainWindow::on_actionClipALL_triggered()
-{
-    /* get the model from the tree view */
-    QAbstractItemModel* model = ui->treeView->model();
+        /* loop through all root items */
+        for (int j = 0; j < model->rowCount(); j++) {
+            QModelIndex rootIndex = model->index(j, 0);
 
-    /* loop through all root items */
-    for (int j = 0; j < model->rowCount(); j++) {
-        QModelIndex rootIndex = model->index(j, 0);
+            /* loop through all child items */
+            for (int i = 0; i < model->rowCount(rootIndex); i++) {
+                QModelIndex childIndex = model->index(i, 0, rootIndex);
 
-        /* loop through all child items */
-        for (int i = 0; i < model->rowCount(rootIndex); i++) {
-            QModelIndex childIndex = model->index(i, 0, rootIndex);
+                /* Get a pointer to the item from the index */
+                ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
 
-            /* Get a pointer to the item from the index */
-            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
+                selectedPart->setFilterClip(clip);
+                selectedPart->setFilterShrink(shrink);
+                selectedPart->setFilterWireframe(wireframe);
 
-            selectedPart->applyClipFilter();
+                selectedPart->setupFilters();
+                // Update the render
+                updateRender();
+            }
         }
+
     }
-
-    // Update the render
-    updateRender();
-}
-
-void MainWindow::on_actionWireframeFilter_triggered() {
-
-/* get selected item, update dialog UI based on selected item*/
-    QModelIndex index = ui->treeView->currentIndex();
-
-    /* Get a pointer to the item from the index */
-    ModelPart* selectedPart = static_cast<ModelPart*>(index.internalPointer());
-
-    selectedPart->applyWireframeFilter();
-
-
-    // Update the render
-    updateRender();
-}
-
-void MainWindow::on_actionWireframeALL_triggered()
-{
-    /* get the model from the tree view */
-    QAbstractItemModel* model = ui->treeView->model();
-
-    /* loop through all root items */
-    for (int j = 0; j < model->rowCount(); j++) {
-        QModelIndex rootIndex = model->index(j, 0);
-
-        /* loop through all child items */
-        for (int i = 0; i < model->rowCount(rootIndex); i++) {
-            QModelIndex childIndex = model->index(i, 0, rootIndex);
-
-            /* Get a pointer to the item from the index */
-            ModelPart* selectedPart = static_cast<ModelPart*>(childIndex.internalPointer());
-
-            selectedPart->applyWireframeFilter();
-        }
+    else {
+        emit statusUpdateMessage(QString("Dialog rejected "), 0);
     }
-
-    // Update the render
-    updateRender();
 }
 
 /* Filters End Here*/
