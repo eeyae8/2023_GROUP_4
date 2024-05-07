@@ -1,0 +1,44 @@
+\doxysection{optiondialog.\+h}
+\hypertarget{optiondialog_8h_source}{}\label{optiondialog_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OPTIONDIALOG\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OPTIONDIALOG\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <QDialog>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <QLineEdit>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QCheckBox>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QColorDialog>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}TreeModel/ModelPart.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }Ui\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_option_dialog}{OptionDialog}};}
+\DoxyCodeLine{00012\ \}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_option_dialog}{OptionDialog}}\ :\ \textcolor{keyword}{public}\ QDialog}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_option_dialog}{OptionDialog}}(ModelPart\ *modelPart,\ QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_option_dialog}{\string~OptionDialog}}();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ updateDialogFromModelPart(ModelPart\ *modelPart);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//void\ acceptDialog();}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ updateModelPartFromDialog();}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ handleRGBButton();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ \ \ \ \ Ui::OptionDialog\ *ui;}
+\DoxyCodeLine{00032\ \ \ \ \ ModelPart\ *modelPart;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r\_char,\ g\_char,\ b\_char;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ r\_load,\ g\_load,\ b\_load;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ r\_load\_int,\ g\_load\_int,\ b\_load\_int;}
+\DoxyCodeLine{00036\ \ \ \ \ ModelPart*\ part;}
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ OPTIONDIALOG\_H}}
+
+\end{DoxyCode}
