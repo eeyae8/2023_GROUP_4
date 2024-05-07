@@ -60,7 +60,7 @@ public slots:
     */
     void handleButton1();
 
-    /**
+    /** handleButton2
     * Capability to remove a file from the tree
     */
     void handleButton2();
