@@ -62,17 +62,35 @@ public slots:
  
     */
     void handleTreeClicked();
+
+
 /** Open file function.
 * This function is called when the user clicks the "Open File" button in the menu bar. It opens a file dialog and loads the selected file.
 * It uses ModelPart to add the actor to VR.
 */
     void on_actionOpen_File_triggered();
+
+
     /** Opens item options and allows user to change the colour of the object in both GUI and VR. 
     */
     void on_actionItem_Options_triggered();
-    
+
+	/** Clear all filters function.
+	* This function is called when the user clicks the "Clear All Filters" button in the menu bar. It clears all filters in the tree.
+	* It uses ModelPart to clear the filters.
+    */
     void on_actionClearALL_triggered();
+
+	/** Apply filters function.
+	* This function is called when the user clicks the "Apply Filters" button in the menu bar. It applies individual filters in the tree.
+	* It uses ModelPart to apply the filters.
+    */
     void on_applyFiltersButton_clicked();
+
+	/** Apply all filters function.
+	* This function is called when the user clicks the "Apply All Filters" button in the menu bar. It applies all filters in the tree.
+	* It uses ModelPart to apply all the filters.
+    */
     void on_applyFilterAllButton_clicked();
 
     /** Start VR function.
