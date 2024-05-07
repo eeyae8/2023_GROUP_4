@@ -55,6 +55,9 @@ private:
 
 public slots:
     
+    /** handleButton function
+    * Extra capability to add files from browser
+    */
     void handleButton1();
     void handleButton2();
 	/** Handle tree clicked function.
