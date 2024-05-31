@@ -160,8 +160,8 @@ void VRRenderThread::run() {
     light->SetPositional(false);
     light->SetConeAngle(10);
     light->SetFocalPoint(0, 0, 0);
-    light->SetDiffuseColor(0.1, 0.1, 1);
-    light->SetAmbientColor(1, 0.1, 0.1);
+    light->SetDiffuseColor(1, 1, 1);
+    light->SetAmbientColor(1, 1, 1);
     light->SetSpecularColor(1, 1, 1);
     light->SetIntensity(0.9);
 
@@ -181,6 +181,7 @@ void VRRenderThread::run() {
     */
     endRender = false;
     t_last = std::chrono::steady_clock::now();
+    rotateX = 1;
 
     while (!interactor->GetDone() && !this->endRender) {
         interactor->DoOneEvent(window, renderer);

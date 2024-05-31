@@ -87,9 +87,7 @@ MainWindow::MainWindow(QWidget* parent)
     cylinderActor->RotateX(30.0);
     cylinderActor->RotateY(-45.0);
 
-    renderer->AddActor(cylinderActor);
-
-    // Apply Lighting code here? (SW new 5)
+ // Apply Lighting code here? (SW new 5)
 
     renderer->ResetCamera();
     renderer->GetActiveCamera()->Azimuth(30);
