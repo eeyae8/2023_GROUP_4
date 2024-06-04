@@ -23,13 +23,10 @@ set(PROJECT_SOURCES
 	TreeModel/ModelPart.h
 	TreeModel/ModelPartList.h
 	VRRenderThread.h
-	filterdialog.cpp
+	VRRenderThread.cpp
+        filterdialog.cpp
 	filterdialog.h
 	filterdialog.ui
-	VRRenderThread.cpp
- 	optiondialog.h
-  	optiondialog.cpp
-   	optiondialog.ui
     app.rc
 )
 
