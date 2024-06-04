@@ -27,6 +27,9 @@ set(PROJECT_SOURCES
 	filterdialog.h
 	filterdialog.ui
 	VRRenderThread.cpp
+ 	optiondialog.h
+  	optiondialog.cpp
+   	optiondialog.ui
     app.rc
 )
 
